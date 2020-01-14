@@ -49,10 +49,13 @@ class AudioRecorderController: UIViewController {
     func play() {
         audioPlayer?.play()
         updateViews()
+        startTimer()
     }
     
     func pause() {
         audioPlayer?.pause()
+        updateViews()
+        cancelTimer()
     }
     
     func playPause() {
@@ -61,6 +64,20 @@ class AudioRecorderController: UIViewController {
         } else {
             play()
         }
+    }
+    
+    private func startTimer() {
+        cancelTimer() // to make sure only one timer is running and no others
+        timer = Timer.scheduledTimer(timeInterval: 0.03, target: self, selector: #selector(updateTimer(timer:)), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func updateTimer(timer: Timer) {
+        updateViews()
+    }
+    
+    private func cancelTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 
 
