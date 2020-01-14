@@ -132,6 +132,7 @@ class AudioRecorderController: UIViewController {
         let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
         // ^^^^ add error handling so we don't have to force unwrap
         audioRecorder = try! AVAudioRecorder(url: file, format: format)
+        audioRecorder?.record()
     }
     
     func stop() {
