@@ -11,8 +11,6 @@ import AVFoundation
 
 class AudioRecorderController: UIViewController {
     
-    var audioPlayer: AVAudioPlayer?
-    
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var timeLabel: UILabel!
@@ -41,12 +39,16 @@ class AudioRecorderController: UIViewController {
         loadAudio()
 	}
     
+    var audioPlayer: AVAudioPlayer?
+    var timer: Timer?
+    
     var isPlaying: Bool {
         audioPlayer?.isPlaying ?? false
     }
     
     func play() {
         audioPlayer?.play()
+        updateViews()
     }
     
     func pause() {
@@ -90,6 +92,17 @@ class AudioRecorderController: UIViewController {
     
     @IBAction func recordButtonPressed(_ sender: Any) {
     
+    }
+    
+    // Update UI
+    
+    private func updateViews() {
+        
+        let playButtonTitle = isPlaying ? "Pause" : "Play"
+        playButton.setTitle(playButtonTitle, for: .normal)
+        
+        let elapsedTime = audioPlayer?.currentTime ?? 0
+        timeLabel.text = "\(elapsedTime)"
     }
 }
 
