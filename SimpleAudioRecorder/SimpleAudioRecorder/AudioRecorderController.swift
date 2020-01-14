@@ -116,7 +116,22 @@ class AudioRecorderController: UIViewController {
     }
     
     func record() {
+        // get documents dir
+        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
+        // file name
+        let name = ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: [.withInternetDateTime])
+        
+        //create file by appending two things together
+        let file = documents.appendingPathComponent(name).appendingPathExtension("caf")
+        
+        print("record: \(file)")
+        
+        //create a new format to control audio quality
+        // 44.1 KHz 44,100 samples per second, 1 microphone
+        let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
+        // ^^^^ add error handling so we don't have to force unwrap
+        audioRecorder = try! AVAudioRecorder(url: file, format: format)
     }
     
     func stop() {
@@ -135,7 +150,7 @@ class AudioRecorderController: UIViewController {
     
     
     @IBAction func recordButtonPressed(_ sender: Any) {
-    
+        recordToggle()
     }
     
     // Update UI
