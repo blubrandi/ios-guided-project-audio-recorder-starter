@@ -138,6 +138,7 @@ class AudioRecorderController: UIViewController {
     func stop() {
         audioRecorder?.stop()
         audioRecorder = nil
+        updateViews()
     }
     
     func recordToggle() {
@@ -152,6 +153,7 @@ class AudioRecorderController: UIViewController {
     
     @IBAction func recordButtonPressed(_ sender: Any) {
         recordToggle()
+        updateViews()
     }
     
     // Update UI
@@ -169,6 +171,9 @@ class AudioRecorderController: UIViewController {
         timeSlider.minimumValue = 0
         timeSlider.maximumValue = Float(audioPlayer?.duration ?? 0)
         timeSlider.value = Float(elapsedTime)
+        
+        let recordButtonTitle = isRecording ? "Stop" : "Record"
+        recordButton.setTitle(recordButtonTitle, for: .normal)
     }
 }
 
