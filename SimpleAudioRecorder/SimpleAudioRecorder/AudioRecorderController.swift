@@ -173,6 +173,8 @@ class AudioRecorderController: UIViewController {
         
         let recordButtonTitle = isRecording ? "Stop" : "Record"
         recordButton.setTitle(recordButtonTitle, for: .normal)
+        
+        timeRemainingLabel.text = timeFormatter.string(from: (audioPlayer?.duration ?? 0) - elapsedTime)
     }
 }
 
