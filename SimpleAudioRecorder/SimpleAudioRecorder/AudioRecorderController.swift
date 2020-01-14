@@ -29,7 +29,7 @@ class AudioRecorderController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+        
 
         timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeLabel.font.pointSize,
                                                           weight: .regular)
@@ -37,6 +37,7 @@ class AudioRecorderController: UIViewController {
                                                                    weight: .regular)
         
         loadAudio()
+        updateViews()
 	}
     
     var audioPlayer: AVAudioPlayer?
@@ -97,6 +98,7 @@ class AudioRecorderController: UIViewController {
         let songURL = Bundle.main.url(forResource: "piano", withExtension: "mp3")!
         
         audioPlayer = try! AVAudioPlayer(contentsOf: songURL)  // FIXME: catch error and print
+        audioPlayer?.delegate = self
     }
     
 
@@ -120,6 +122,26 @@ class AudioRecorderController: UIViewController {
         
         let elapsedTime = audioPlayer?.currentTime ?? 0
         timeLabel.text = timeFormatter.string(from: elapsedTime)
+        
+        // reset the slider - per asset, ex: per different audio file
+        
+        timeSlider.minimumValue = 0
+        timeSlider.maximumValue = Float(audioPlayer?.duration ?? 0)
+        timeSlider.value = Float(elapsedTime)
+    }
+}
+
+extension AudioRecorderController: AVAudioPlayerDelegate {
+    
+    // Resets when it's finished playing
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        updateViews()
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        if let error = error {
+            print("Audio Player error: \(error)")
+        }
     }
 }
 
