@@ -119,7 +119,7 @@ class AudioRecorderController: UIViewController {
         playButton.setTitle(playButtonTitle, for: .normal)
         
         let elapsedTime = audioPlayer?.currentTime ?? 0
-        timeLabel.text = "\(elapsedTime)"
+        timeLabel.text = timeFormatter.string(from: elapsedTime)
     }
 }
 
