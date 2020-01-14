@@ -40,6 +40,26 @@ class AudioRecorderController: UIViewController {
         
         loadAudio()
 	}
+    
+    var isPlaying: Bool {
+        audioPlayer?.isPlaying ?? false
+    }
+    
+    func play() {
+        audioPlayer?.play()
+    }
+    
+    func pause() {
+        audioPlayer?.pause()
+    }
+    
+    func playPause() {
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
+    }
 
 
     //Playback APIs
@@ -60,13 +80,13 @@ class AudioRecorderController: UIViewController {
         audioPlayer = try! AVAudioPlayer(contentsOf: songURL)  // FIXME: catch error and print
     }
     
-    // Record APIs
+
     
     @IBAction func playButtonPressed(_ sender: Any) {
-        
+        playPause()
 	}
     
-
+    // Record APIs
     
     @IBAction func recordButtonPressed(_ sender: Any) {
     
