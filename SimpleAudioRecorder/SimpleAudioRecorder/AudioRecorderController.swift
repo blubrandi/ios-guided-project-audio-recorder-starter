@@ -109,6 +109,31 @@ class AudioRecorderController: UIViewController {
     
     // Record APIs
     
+    var audioRecorder: AVAudioRecorder?
+    
+    var isRecording: Bool {
+        return audioRecorder?.isRecording ?? false
+    }
+    
+    func record() {
+        
+    }
+    
+    func stop() {
+        audioRecorder?.stop()
+        audioRecorder = nil
+    }
+    
+    func recordToggle() {
+        if isRecording {
+            stop()
+        } else {
+            record()
+        }
+    }
+    
+    
+    
     @IBAction func recordButtonPressed(_ sender: Any) {
     
     }
